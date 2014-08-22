@@ -1,0 +1,104 @@
+*tagabana.txt*            Manages central tag files location per git repository
+
+
+                                Vim tagabana
+
+
+Maintainer:        Rafael Bodill <http://rafi.io/>
+Version:           0.8
+Plugin Homepage:   <https://github.com/rafi/vim-tagabana>
+
+===============================================================================
+CONTENTS                                                    *tagabana-contents*
+
+  1.  Introduction ................. |tagabana-introduction|
+  2.  Installation ................. |tagabana-installation|
+  3.  Usage ........................ |tagabana-usage|
+  4.  Customisation ................ |tagabana-customisation|
+  5.  Extending .................... |tagabana-extening|
+  6.  FAQ .......................... |tagabana-faq|
+
+===============================================================================
+1. INTRODUCTION                                         *tagabana-introduction*
+                                                                     *tagabana*
+
+Generate ctags into central location for git super-projects and submodules,
+vim |setlocal| helper combined with .git/hooks.
+
+===============================================================================
+2. INSTALLATION                                         *tagabana-installation*
+
+First, copy the custom git hooks to your template at `.git_template/hooks`:
+>
+	cp misc/hooks/* ~/.git_template/hooks
+<
+And set your `.gitconfig` (or `.config/git/config`) globally:
+>
+	git config --global init.templatedir '~/.git_template'
+<
+Note: Git >=1.7.12 is in line with XDG, e.g. `.config/git/template`.
+
+Then install this vim plugin using your favorite plugin manager, or copy
+`tagabana.vim` to your `[.]vim/plugin/` directory and start hacking.
+
+===============================================================================
+3. USAGE                                                       *tagabana-usage*
+
+Git+ctags Work-flow                                     *tagabana-git-workflow*
+                                                               *tagabana-ctags*
+
+When you `git init`, your template hooks will be copied into the new
+repository. You can manually copy them into an existing git project. These
+hooks will generate the ctags files in your `$XDG_CACHE_HOME/vim/tags/` folder
+every time you:
+- Checkout (post-checkout)
+- Commit (post-commit)
+- Merge (post-merge)
+- Rebase (post-rewrite)
+
+These git hooks will execute the main ctags generator script, you can find them
+all in this plugin's subdirectory `misc/hooks/`.
+
+Ensure ~/.ctags Configuration                           *tagabana-ctags-config*
+
+To set different ctags options, create yourself a `~/.ctags`, I've included an
+example at [misc/example.ctags]
+
+Vim work-flow                                           *tagabana-vim-workflow*
+When you open Vim the plugin will try to detect the working-directory of the
+git super-project or submodule, and tells Vim to use the generated ctags file
+in the central location. This also happens after creating or reading a file.
+**Note: The plugin caches the tags location per-tab, so mixing different
+project files in the same tab won't work as expected. You can easily change
+this behaviour to act per-buffer by hacking on |tagabana.vim|.
+
+===============================================================================
+5. CUSTOMISATION                                       *tagabana-customisation*
+
+Change the following options in your |vimrc| to customize the plugin behaviour.
+
+Set a different directory for the central tags location. The default is:
+`$XDG_CACHE_HOME/vim/tags/`
+
+>
+  let tagabana_tags_dir = '~/.vim/tags'
+<
+
+===============================================================================
+6. EXTENDING                                               *tagabana-extending*
+
+This plugin is so tiny and has excellent comments in code. Feel free to tweak
+and change it to your liking.
+
+===============================================================================
+7. FAQ                                                           *tagabana-faq*
+
+a. How does this plugin define a "Project"?
+
+  It will look for any parent directories that have a `.git` directory
+	(super-project) or a `.git` file (submodule).
+
+b. How do you deal with multiple projects in the same instance?
+
+  Usually, I tend to not mix different projects in the same tab. I use tabs for
+	actively working on two projects or more.
