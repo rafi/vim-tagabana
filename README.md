@@ -15,7 +15,7 @@ First, copy the [custom git hooks] to your template at `.git_template/hooks`:
 	mkdir -p ~/.git_template/hooks
 	cp misc/hooks/* ~/.git_template/hooks
 
-And set your `.gitconfig` (or `.config/git/config`):
+And set your `.gitconfig` (or `.config/git/config`) globally:
 
 	git config --global init.templatedir '~/.git_template'
 

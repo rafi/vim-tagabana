@@ -35,7 +35,7 @@ function! tagabana#setlocal_tags()
 		" same tab won't work as expected. You can change t: => b: and remove the
 		" getcwd check if you want to tweak it that way.
 		let t:worktree = s:find_git_repo_or_submodule()
-		let t:worktree_hash = s:hash(t:worktree)
+		let t:worktree_hash = g:TagabanaHash(t:worktree)
 	endif
 
 	" Append the central tag path to Vim's tags setting.
@@ -65,13 +65,13 @@ endfunction
 
 " Hashes a path string
 " Credits: https://github.com/Shougo
-function! s:hash(str)
+function! g:TagabanaHash(str)
 	" Hash the project directory
 	if len(a:str) < 150
 		" Just replacing directory separators if path is
 		" less than 150 characters.
 		let hash = substitute(substitute(
-					\ a:str, ':', '=-', 'g'), '[/\\]', '=+', 'g')
+					\ a:str, ':', '=-', 'g'), '[/\\\ ]', '=+', 'g')
 	elseif executable('sha256sum')
 		" Use SHA256 for long paths. Use the command line executable and not Vim's
 		" internal sha256() function to stay compatible with the bash 'ctags' hook
