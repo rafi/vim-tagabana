@@ -1,10 +1,11 @@
 #!/bin/sh
 set -e
-cwd=$(git rev-parse --show-toplevel)
+cwd=$(git rev-parse --show-toplevel || pwd)
 if [ -z "$cwd" ]; then
-	echo "[ctags] Error while creating tags: Empty project directory"
+	echo "[ctags] Error: Not a git repository"
 	exit 1
 fi
+cd $cwd
 
 # Hash the project directory
 if [ "${#cwd}" -lt 150 ]; then
@@ -36,5 +37,5 @@ fi
 filepath="${XDG_CACHE_HOME:-$HOME/.cache}/vim/tags/${hash}"
 trap 'rm -f "${filepath}.$$"' EXIT
 echo "Generating tags at ${filepath}..."
-ctags -f"${filepath}.$$"
+/usr/bin/ctags -f"${filepath}.$$" $*
 mv "${filepath}.$$" "${filepath}"

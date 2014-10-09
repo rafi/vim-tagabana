@@ -59,6 +59,7 @@ Options you can set in your `.vimrc` to overwrite default behaviour.
 | Option                | Default                   | Description                |
 |-----------------------|---------------------------|----------------------------|
 | `g:tagabana_tags_dir` | $XDG_CACHE_HOME/vim/tags/ | Central directory for tags |
+| `g:tagabana_match_submodule` | 0 | Match submodules as well? |
 
 ## Credits & Contribution
 

@@ -5,7 +5,7 @@
 
 
 Maintainer:        Rafael Bodill <http://rafi.io/>
-Version:           0.8
+Version:           0.9
 Plugin Homepage:   <https://github.com/rafi/vim-tagabana>
 
 ===============================================================================
@@ -77,13 +77,20 @@ this behaviour to act per-buffer by hacking on |tagabana.vim|.
 
 Change the following options in your |vimrc| to customize the plugin behaviour.
 
+g:tagabana_tags_dir                                       *g:tagabana_tags_dir*
 Set a different directory for the central tags location. The default is:
 `$XDG_CACHE_HOME/vim/tags/`
 
 >
-  let tagabana_tags_dir = '~/.vim/tags'
+  let g:tagabana_tags_dir = '~/.vim/tags'
 <
 
+g:tagabana_match_submodule                         *g:tagabana_match_submodule*
+Make tagabana match a project being a submodule. The default is 0.
+
+>
+  let g:tagabana_match_submodule = 1
+<
 ===============================================================================
 6. EXTENDING                                               *tagabana-extending*
 

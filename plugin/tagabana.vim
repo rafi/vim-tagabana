@@ -1,6 +1,6 @@
 " tagabana - Manages central tag files location per git repository
 " Maintainer:  Rafael Bodill <justrafi at gmail dot com>
-" Version:     0.8
+" Version:     0.9
 " License:     MIT License (c) 2014 Rafael Bodill
 " Manual:      Read ":help tagabana"
 "--------------------------------------------------------------------
@@ -14,7 +14,7 @@ let g:loaded_tagabana = 1
 " Configuration {{{1
 
 " Central tag directory
-if !exists('g:tagabana_tags_dir')
+if ! exists('g:tagabana_tags_dir')
 	let g:tagabana_tags_dir = $XDG_CACHE_HOME.'/vim/tags/'
 else
 	" Append a forward-slash if missing
@@ -23,13 +23,18 @@ else
 	endif
 endif
 
+" Match submodules as well?
+if ! exists('g:tagabana_match_submodule')
+	let g:tagabana_match_submodule = 0
+endif
+
 " Functions {{{1
 
 " Append to buffer's `tags` setting the central tags hash
 " for this Git super-project or submodule.
 function! tagabana#setlocal_tags()
 	" Use cached per-tab values if cwd hasn't changed.
-	if !exists('t:worktree_hash') || ! (exists('t:worktree') && t:worktree == getcwd())
+	if ! exists('t:worktree_hash') || ! (exists('t:worktree') && t:worktree == getcwd())
 		" Finds the current or parent project dir and hashes it
 		" Caches results per-tab, meaning that mixing different project files in the
 		" same tab won't work as expected. You can change t: => b: and remove the
@@ -45,19 +50,29 @@ endfunction
 " Finds the Git super-project or submodule directory.
 function! s:find_git_repo_or_submodule()
 	let cwd = getcwd()
-	" If no .git folder in cwd = it's not a git repo.
-	" If no .git file in cwd = it's not a git submodule.
-	if !isdirectory('.git') && !filereadable('.git')
-		" Look upwards (at parents) for a file or dir named '.git':
-		" First lookup for a .git file, symbolizing a git submodule
-		let parent = substitute(findfile('.git', '.;'), '/.git', '', '')
-		if parent == ''
-			" Secondly, lookup for a .git folder, symbolizing a git repo
-			let parent = substitute(finddir('.git', '.;'), '/.git', '', '')
+	let parent = ''
+	" Look for a .git folder, traverse parents if needed
+	if ! isdirectory('.git')
+		if g:tagabana_match_submodule
+			if ! filereadable('.git')
+				" Look upwards (at parents) for a file or dir named '.git':
+				" First lookup for a .git file, symbolizing a git submodule
+				let parent = substitute(findfile('.git', '.;'), '/.git', '', '')
+				" If found, use it instead of cwd
+				if parent != ''
+					let cwd = parent
+				endif
+			else
+				let parent = cwd
+			endif
 		endif
-		" If found, use it instead of cwd
-		if parent != ''
-			let cwd = parent
+		if parent == ''
+			" Lookup for a .git folder, symbolizing a git repo
+			let parent = substitute(finddir('.git', '.;'), '/.git', '', '')
+			" If found, use it instead of cwd
+			if parent != ''
+				let cwd = parent
+			endif
 		endif
 	endif
 	return cwd
