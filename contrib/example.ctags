@@ -1,8 +1,8 @@
---totals
 --recurse=yes
 --tag-relative=yes
 --fields=+ailmnS
 --sort=yes
+--verbose=no
 
 --languages=-html
 --languages=-javascript
@@ -14,19 +14,18 @@
 --exclude=node_modules
 --exclude=*/cache
 --exclude=*/compiled
---exclude=*/js/vendor
---exclude=*/js/libs
---exclude=src/core/vendor
---exclude=themes/*/media
---exclude=tcpdf
---exclude=swiftmailer
---exclude=google-chrome
+--exclude=google-chrome*
+--exclude=chromium*
 
 --langdef=markdown
 --langmap=markdown:.md
 --regex-markdown=/^#[ \t]+(.*)/\1/h,Heading_L1/
 --regex-markdown=/^##[ \t]+(.*)/\1/i,Heading_L2/
 --regex-markdown=/^###[ \t]+(.*)/\1/k,Heading_L3/
+
+--langdef=ansible
+--langmap=ansible:.yml.yaml
+--regex-ansible=/^[ \t]*-[ \t]*name:[ \t]*(.+)/\1/k,tasks/
 
 --langdef=css
 --langmap=css:.css
@@ -44,7 +43,7 @@
 
 --langdef=scss
 --langmap=scss:.scss
---regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*{/| \1/d,definition/
+--regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*\{/| \1/d,definition/
 --regex-scss=/^[@]mixin ([^ (]+).*/\1/m,mixin/
 --regex-scss=/^[@]function ([^ (]+).*/\1/f,function/
 

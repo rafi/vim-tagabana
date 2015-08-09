@@ -13,7 +13,7 @@ Generate ctags into central location for git super-projects and submodules, vim 
 First, copy the [custom git hooks] to your template at `.git_template/hooks`:
 
 	mkdir -p ~/.git_template/hooks
-	cp misc/hooks/* ~/.git_template/hooks
+	cp contrib/hooks/* ~/.git_template/hooks
 
 And set your `.gitconfig` (or `.config/git/config`) globally:
 
@@ -22,7 +22,7 @@ And set your `.gitconfig` (or `.config/git/config`) globally:
 _Note:_ Git >=1.7.12 is in line with XDG, e.g. `.config/git/template`.
 
 Then install this vim plugin using your favorite plugin manager, or copy
-`tagabana.vim` to your `[.]vim/plugin/` directory and start hacking.
+`tagabana.vim` to your `.vim/plugin/` directory and start hacking.
 
 ## Usage
 
@@ -40,7 +40,7 @@ These git hooks will execute the main [ctags generator] script.
 
 ### Ensure ~/.ctags Configuration
 To set different ctags options, create yourself a `~/.ctags`, I've included an
-example at [misc/example.ctags]
+example at [contrib/example.ctags]
 
 ### Vim work-flow
 When you open Vim the plugin will try to detect the working-directory of the git
@@ -65,11 +65,11 @@ Options you can set in your `.vimrc` to overwrite default behaviour.
 
 This plugin was developed by Rafael Bodill under the [MIT License][license]. Pull requests are welcome.
 
-[misc/example.ctags]: ./misc/example.ctags
-[post-checkout]: ./misc/hooks/post-checkout
-[post-commit]: ./misc/hooks/post-commit
-[post-merge]: ./misc/hooks/post-merge
-[post-rewrite]: ./misc/hooks/post-rewrite
-[ctags generator]: ./misc/hooks/ctags
-[custom git hooks]: ./misc/hooks/
+[contrib/example.ctags]: ./contrib/example.ctags
+[post-checkout]: ./contrib/hooks/post-checkout
+[post-commit]: ./contrib/hooks/post-commit
+[post-merge]: ./contrib/hooks/post-merge
+[post-rewrite]: ./contrib/hooks/post-rewrite
+[ctags generator]: ./contrib/hooks/ctags
+[custom git hooks]: ./contrib/hooks/
 [license]: ./LICENSE

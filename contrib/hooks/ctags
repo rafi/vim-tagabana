@@ -1,13 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
+
+dry_run() {
+	ctags "$@"
+	exit $?
+}
+
+for arg in "$@"; do
+	case "$arg" in
+		--help|--version|--license) dry_run "$@";;
+		--list*) dry_run "$@";;
+	esac
+done
+
+# Find git repository's top-level directory
 cwd=$(git rev-parse --show-toplevel || pwd)
 if [ -z "$cwd" ]; then
-	echo "[ctags] Error: Not a git repository"
-	exit 1
+	ctags "$@"
+	exit $?
 fi
-cd $cwd
+pushd "$cwd" 1>/dev/null
 
-# Hash the project directory
+# Hash the top-level directory path
 if [ "${#cwd}" -lt 150 ]; then
 	# Just replacing directory separators if path is
 	# less than 150 characters.
@@ -36,6 +50,12 @@ fi
 # Generate the tags file into the central repository
 filepath="${XDG_CACHE_HOME:-$HOME/.cache}/vim/tags/${hash}"
 trap 'rm -f "${filepath}.$$"' EXIT
-echo "Generating tags at ${filepath}..."
-/usr/bin/ctags -f"${filepath}.$$" $*
+
+# Run ctags, store exit code.
+# On complete move from temp name.
+ctags -f"${filepath}.$$" "$@"
+exit_code=$?
+
 mv "${filepath}.$$" "${filepath}"
+popd 1>/dev/null
+exit $exit_code
