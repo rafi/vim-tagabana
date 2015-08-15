@@ -25,7 +25,7 @@ endif
 
 " Match submodules as well?
 if ! exists('g:tagabana_match_submodule')
-	let g:tagabana_match_submodule = 0
+	let g:tagabana_match_submodule = 1
 endif
 
 " Functions {{{1

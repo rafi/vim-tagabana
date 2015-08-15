@@ -86,10 +86,10 @@ Set a different directory for the central tags location. The default is:
 <
 
 g:tagabana_match_submodule                         *g:tagabana_match_submodule*
-Make tagabana match a project being a submodule. The default is 0.
+Make tagabana match a project being a submodule. The default is 1.
 
 >
-  let g:tagabana_match_submodule = 1
+  let g:tagabana_match_submodule = 0
 <
 ===============================================================================
 6. EXTENDING                                               *tagabana-extending*
