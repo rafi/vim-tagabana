@@ -7,7 +7,7 @@
 main()
 {
 	if test $(git config --bool hooks.ctags.enabled) = true; then
-		ctags &
+		"$GIT_DIR"/hooks/ctags &
 	fi
 }
 main
