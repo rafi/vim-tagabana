@@ -15,7 +15,12 @@ let g:loaded_tagabana = 1
 
 " Central tag directory
 if ! exists('g:tagabana_tags_dir')
-	let g:tagabana_tags_dir = $XDG_CACHE_HOME.'/vim/tags/'
+	if empty($XDG_CACHE_HOME)
+		let s:cache_dir = $HOME.'/.cache'
+	else
+		let s:cache_dir = $XDG_CACHE_HOME
+	endif
+	let g:tagabana_tags_dir = s:cache_dir.'/vim/tags/'
 else
 	" Append a forward-slash if missing
 	if g:tagabana_tags_dir !~ '/$'
