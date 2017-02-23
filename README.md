@@ -36,7 +36,14 @@ you:
 - Merge ([post-merge])
 - Rebase ([post-rewrite])
 
-These git hooks will execute the main [ctags generator] script.
+If the hooks are enabled in the current git config:
+
+	# local to a repo
+	git config hooks.ctags.enable true
+	# global config
+	git config --global hooks.ctags.enable true
+
+Then, they will execute the main [ctags generator] script.
 
 ### Ensure ~/.ctags Configuration
 To set different ctags options, create yourself a `~/.ctags`, I've included an

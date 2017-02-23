@@ -6,8 +6,8 @@
 # Runs ctags if enabled in git config
 main()
 {
-	if test $(git config --bool hooks.ctags.enabled) = true; then
-		"$GIT_DIR"/hooks/ctags &
+	if [ "$(git config --bool hooks.ctags.enabled)" = true ]; then
+		"$GIT_DIR/hooks/ctags" &
 	fi
 }
 main
